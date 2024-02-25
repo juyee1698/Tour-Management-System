@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Container, Row, Col, Form, FormGroup, Button} from 'reactstrap';
 import {Link} from 'react-router-dom';
 import '../styles/login.css';
+import { loginUser } from './apiService';
 
 import loginImg from '../assets/images/login.png';
 import userIcon from '../assets/images/user.png';
@@ -9,19 +10,29 @@ import userIcon from '../assets/images/user.png';
 
 
 const Login = () => {
+    const [credentials, setCredentials] = useState({
+        email: '',
+        password: '',
+    });
 
-    const [credentials, setCredentails] = useState({
-        email: undefined,
-        password: undefined,
-    })
-
-    const handleChange = e => {
-        setCredentails(prev => ({...prev, [e.target.id]: e.target.value}))
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setCredentials({...credentials, [id]: value});
     };
 
-    const handleClick = e => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    }
+        try {
+            const data = await loginUser(credentials);
+            if (data.success) {
+                console.log('Login successful:', data);
+            } else {
+                console.error('Login failed:', data.message);
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+        }
+    };
 
     return (<section>
         <Container>
@@ -38,7 +49,7 @@ const Login = () => {
                             </div>
                             <h2>Login</h2>
 
-                            <Form onSubmit={handleClick}>
+                            <Form onSubmit={handleSubmit}>
                                 <FormGroup>
                                     <input type="text" 
                                         placeholder='Email' 
@@ -52,7 +63,7 @@ const Login = () => {
                                         required id='password' 
                                         onChange={handleChange} />
                                 </FormGroup>
-                                <Button className='btn secondary__btn auth__btn' type='submit'>Login</Button>
+                                <Button className='btn secondary__btn auth__btn' type='submit' >Login</Button>
                             </Form>
                             <p>Don't have an account? <Link to='/register' >Create Account</Link></p>
                         </div>
