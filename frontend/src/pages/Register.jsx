@@ -35,20 +35,22 @@ const Register = () => {
             return;
         }
         try {
-            const data = await registerUser({
+            const response = await registerUser({
                 name: userData.name,
                 email: userData.email,
                 password: userData.password,
                 confirmPassword: userData.confirmPassword
             });
-            if (data.flag === true) {
+            if (response.flag === true) {
                 setModalMessage('Registration complete. Account created successfully.');
                 toggleModal();
                 setTimeout(() => {
                     navigate('/login');
-                }, 3000); // Redirects to login after 3 seconds
+                }, 3000); 
+                console.log(response)// Redirects to login after 3 seconds
             } else {
-                setModalMessage(`Registration failed: ${data.message}`);
+                console.log(response)
+                setModalMessage(`Registration failed: ${response.data[0].msg}`);
                 toggleModal();
             }
         } catch (error) {

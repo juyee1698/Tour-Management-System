@@ -11,13 +11,13 @@ const quick__links = [
         display:'Home'
     },
     {
-        path:'/about',
-        display:'About'
+        path:'/flights',
+        display:'Flights'
     },
     {
-        path:'/tours',
-        display:'Tours'
-    },
+        path:'/about',
+        display:'About'
+    }, 
 ]
 
 const quick__links2 = [

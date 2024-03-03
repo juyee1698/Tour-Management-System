@@ -2,7 +2,7 @@ const BASE_URL = 'http://localhost:8080';
 
 async function loginUser(credentials) {
     try {
-        const response = await fetch(`${BASE_URL}/login`, {
+        const response = await fetch(`${BASE_URL}/auth/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ async function loginUser(credentials) {
 
 async function registerUser(userData) {
     try {
-        const response = await fetch(`${BASE_URL}/signup`, {
+        const response = await fetch(`${BASE_URL}/auth/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

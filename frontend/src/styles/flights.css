@@ -1,0 +1,145 @@
+
+.flight-segment {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 10px;
+}
+
+.flight-segment:last-child {
+margin-bottom: 0;
+}
+
+/* Flight time and duration container */
+.flight-times {
+grid-column: 1 / 2; /* Takes the first column */
+font-size: 0.9em;
+display: flex;
+flex-direction: column;
+}
+
+/* Flight details like airline, flight number, and layovers */
+.flight-details {
+grid-column: 2 / 3; /* Takes the second column */
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+font-size: 0.9em;
+}
+
+/* Flight price and booking button container */
+.flight-price {
+grid-column: 3 / 4; /* Takes the third column */
+display: flex;
+flex-direction: column;
+align-items: flex-end;
+font-size: 0.9em;
+}
+
+.depart, .arrive, .duration, .airline, .flight-number, .layovers, .price {
+margin-bottom: 4px;
+}
+
+.flights-container {
+display: flex;
+flex-direction: column;
+align-items: center;
+width: 100%;
+}
+
+.search-bar-container {
+margin-bottom: 20px;
+}
+
+.content-container {
+display: flex;
+width: 100%;
+}
+
+.filters-container {
+flex: 1;
+max-width: 25%;
+padding: 20px;
+border-right: 1px solid #e0e0e0;
+}
+
+.flight-offers-container {
+flex: 3;
+padding: 20px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.flight-offer {
+background-color: #ffffff;
+border: 1px solid #e0e0e0;
+border-radius: 15px;
+padding: 15px;
+margin-bottom: 20px;
+width: 100%;
+max-width: 800px;
+box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.flight-times {
+font-size: 1.1em;
+margin-bottom: 10px;
+}
+
+.flight-details {
+font-size: 1em;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.flight-number {
+font-weight: bold;
+}
+
+.layovers {
+font-style: italic;
+}
+
+.price {
+color: #007bff;
+font-weight: bold;
+}
+
+
+filters-container h4 {
+margin-bottom: 10px;
+}
+
+.filters-container div {
+margin-bottom: 10px;
+}
+
+.filters-container label {
+display: block;
+margin-bottom: 5px;
+}
+
+.filters-container select {
+width: 100%;
+padding: 8px;
+border: 1px solid #e0e0e0;
+border-radius: 4px;
+}
+
+.book-button {
+background-color: #0066cc;
+color: white;
+padding: 10px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+font-weight: bold;
+text-transform: uppercase;
+transition: background-color 0.3s ease;
+}
+
+.book-button:hover {
+background-color: #0052a3;
+}

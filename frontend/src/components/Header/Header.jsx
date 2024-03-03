@@ -1,7 +1,6 @@
 import React from 'react';
 import {Container, Row, Button} from 'reactstrap';
-import { NavLink, Link } from 'react-router-dom';
-import { useUser } from '../../context/UserContext';
+import { NavLink, Link, useNavigate} from 'react-router-dom';
 
 import logo from '../../assets/images/logo2.png';
 import './header.css';
@@ -11,18 +10,30 @@ const nav__links = [
         display:'Home'
     },
     {
-        path:'/about',
-        display:'About'
+        path:'/flights',
+        display:'Flights'
     },
     {
-        path:'/tours',
-        display:'Tours'
+        path:'/about',
+        display:'About'
     },
 ]
 
 const Header = () => {
 
-    const { user, logout } = useUser();
+    const authToken = localStorage.getItem('token');
+    // const userId = localStorage.getItem('userId');
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        setTimeout(() => {
+            navigate('/');
+        }, 1000);
+    };
+
+
     return (<header className="header">
         <Container>
             <Row>
@@ -49,10 +60,10 @@ const Header = () => {
                     {/* ============= menu end ============= */}
 
                     <div className="nav__right d-flex align-items-center gap-4">
-                    {user ? (
+                    {authToken ? (
                                 <div className="user__info d-flex align-items-center gap-2">
-                                    <span>{user.name}</span> {/* Display user name */}
-                                    <Button onClick={logout} className='btn primary__btn'>Logout</Button>
+                                    {/* <span>Hi {userId} !!   </span> Display user name */}
+                                    <Button onClick={handleLogout} className='btn primary__btn'>Logout</Button>
                                 </div>
                             ) : (
                                 <div className="nav__buttons d-flex align-items-center gap-4">
