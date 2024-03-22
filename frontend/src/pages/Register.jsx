@@ -5,7 +5,7 @@ import '../styles/login.css';
 
 import registerImg from '../assets/images/register.png';
 import userIcon from '../assets/images/user.png';
-import { registerUser } from './apiService';
+import { registerUser } from '../apiService';
 
 const Register = () => {
     const [userData, setUserData] = useState({

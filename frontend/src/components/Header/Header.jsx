@@ -10,10 +10,6 @@ const nav__links = [
         display:'Home'
     },
     {
-        path:'/flights',
-        display:'Flights'
-    },
-    {
         path:'/about',
         display:'About'
     },
@@ -27,7 +23,7 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        localStorage.removeItem('userId');
+        // localStorage.removeItem('userId');
         setTimeout(() => {
             navigate('/');
         }, 1000);

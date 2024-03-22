@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/home.css';
 
 import { Container, Row, Col} from 'reactstrap';
@@ -12,6 +12,9 @@ import ServiceList from '../services/ServiceList.jsx';
 import FeaturedTourList from '../components/Featured-tours/FeaturedTourList.jsx';
 
 const Home = () => {
+
+    const [activeTab, setActiveTab] = useState('flights');
+
     return <>
         <section>
             <Container>
@@ -45,8 +48,33 @@ const Home = () => {
                             <img src={heroImg02} alt=""/>
                         </div>
                     </Col>
+                </Row>
+            </Container>
+        </section>
 
-                    <SearchBar/>
+        <section>
+            <Container>
+                <Row>
+                    
+                        {/* Sub-navigation */}
+                        <Col lg="12" className="mb-3">
+                            <div className="sub-navigation">
+                                <button onClick={() => setActiveTab('flights')} className={`btn ${activeTab === 'flights' ? 'btn-primary' : 'btn-outline-primary'}`}>Flights</button>
+                                <button onClick={() => setActiveTab('sightseeing')} className={`btn ml-2 ${activeTab === 'sightseeing' ? 'btn-primary' : 'btn-outline-primary'}`}>Sightseeing</button>
+                            </div>
+                        </Col>
+
+                        {activeTab === 'flights' && (
+                            <Col lg="12">
+                                <SearchBar/>
+                            </Col>
+                        )}
+
+                        {activeTab === 'sightseeing' && (
+                            <Col lg="12">
+                                <h2>Sightseeing coming soon!</h2>
+                            </Col>
+                        )}
                 </Row>
             </Container>
         </section>

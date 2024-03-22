@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Row, Col, Form, FormGroup, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
-import { loginUser } from './apiService';
+import { loginUser } from '../apiService.js';
 
 import loginImg from '../assets/images/login.png';
 import userIcon from '../assets/images/user.png';

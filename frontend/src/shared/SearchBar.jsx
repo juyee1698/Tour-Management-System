@@ -1,25 +1,42 @@
 import React, { useRef } from 'react';
-import './search-bar.css'; // Make sure this path is correct
+import './search-bar.css';
 import { Col, Form, FormGroup } from 'reactstrap';
+import { searchFlight } from '../apiService';
+import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
+    const navigate = useNavigate();
     const fromLocationRef = useRef('');
     const toLocationRef = useRef('');
     const dateRef = useRef('');
     const peopleRef = useRef(0);
 
-    const searchHandler = () => {
-        const fromLocation = fromLocationRef.current.value;
-        const toLocation = toLocationRef.current.value;
-        const date = dateRef.current.value;
-        const numberOfPeople = peopleRef.current.value;
+    const searchHandler = async () => {
+        const originLocation = fromLocationRef.current.value;
+        const destinationLocation = toLocationRef.current.value;
+        const departureDate = dateRef.current.value;
+        const adultsCount = peopleRef.current.value;
 
-        if(fromLocation === "" || toLocation === "" || date === "" || numberOfPeople <= 0){
+        if(originLocation === "" || destinationLocation === "" || departureDate === "" || adultsCount <= 0){
             return alert("All fields are required and number of people must be greater than 0!");
         }
 
-        // Assuming you would do something with the input values here
-        console.log({fromLocation, toLocation, date, numberOfPeople});
+        const searchData = {"originLocation":originLocation,
+                            "destinationLocation":destinationLocation,
+                            "departureDate":departureDate,
+                            "adultsCount":adultsCount,
+                            "childrenCount": 0,
+                            "infantsCount": 0,
+                            "maxFlightOffers":15};
+        
+        try {
+            console.log("pohocha")
+            const searchResults = await searchFlight(searchData);
+            navigate('/flights', { state: { searchResults: searchResults } });
+        } catch (error) {
+            console.error('Search failed:', error);
+        }
+
     }
 
     return (
