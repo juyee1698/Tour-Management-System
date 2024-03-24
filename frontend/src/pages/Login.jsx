@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FormGroup, Button, Modal, ModalHeader, Modal
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import { loginUser } from '../apiService.js';
+import { GoogleLogin } from 'react-google-login';
 
 import loginImg from '../assets/images/login.png';
 import userIcon from '../assets/images/user.png';
@@ -46,6 +47,21 @@ const Login = () => {
         }
     };
 
+    const handleLoginSuccess = (response) => {
+        console.log('Login Success:', response);
+        localStorage.setItem('token',response.token)
+        localStorage.setItem('userId',response.userId)
+        setTimeout(() => {
+            navigate('/home');
+        }, 2000);
+      };
+      
+      const handleLoginFailure = (response) => {
+        console.error('Login Failed:', response);
+        setModalMessage('Google Login failed. Please try again.');
+        toggleModal();
+      };
+
     return (
         <section>
             <Container>
@@ -78,6 +94,15 @@ const Login = () => {
                                     </FormGroup>
                                     <Button className='btn secondary__btn auth__btn' type='submit' >Login</Button>
                                 </Form>
+                                <GoogleLogin
+                                    clientId=""
+                                    buttonText="Login with Google"
+                                    onSuccess={handleLoginSuccess}
+                                    onFailure={handleLoginFailure}
+                                    cookiePolicy={'single_host_origin'}
+                                    className="google__btn auth__btn"
+                                />
+
                                 <p>Don't have an account? <Link to='/register' >Create Account</Link></p>
                             </div>
                         </div>
