@@ -3,10 +3,10 @@ import { Container, Row, Col, Form, FormGroup, Button, Modal, ModalHeader, Modal
 import { Link, useNavigate } from 'react-router-dom';
 import '../styles/login.css';
 import { loginUser } from '../apiService.js';
-import { GoogleLogin } from 'react-google-login';
-
 import loginImg from '../assets/images/login.png';
 import userIcon from '../assets/images/user.png';
+
+import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 const Login = () => {
     const navigate = useNavigate(); 
@@ -23,7 +23,49 @@ const Login = () => {
     };
 
     const toggleModal = () => setModal(!modal);
+    const responseGoogleFailure = (response) => {
+        console.error('Google login failed:', response);
+    }
+    const responseGoogle = async (response) => {
+        console.log("sUCCESS")
+        console.log(response.credential)
+        // console.log(response.tokenId)
+        try {
+            const res = await fetch('http://localhost:8080/o2auth/google', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ access_token: response.credential }),
+            });
 
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await res.json();
+            console.log('Login successful:', data);
+            if (data.token) {
+                console.log('Login successful:', data);
+                localStorage.setItem('token',data.token)
+                localStorage.setItem('userId',data.userId)
+                setTimeout(() => {
+                    navigate('/home');
+                }, 2000); 
+            } else {
+                console.error('Login failed:', data.message);
+                setModalMessage(data.message || 'Login failed for unknown reasons.'); 
+                toggleModal(); 
+            }            
+      // Log the response from the backend
+
+        } catch (error) {
+            console.error('Error:', error);
+            setModalMessage(`Login error: ${error.message || 'Unknown error occurred.'}`); 
+            toggleModal(); 
+        }
+    }
+  
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -93,15 +135,14 @@ const Login = () => {
                                             onChange={handleChange} />
                                     </FormGroup>
                                     <Button className='btn secondary__btn auth__btn' type='submit' >Login</Button>
-                                </Form>
-                                <GoogleLogin
-                                    clientId=""
-                                    buttonText="Login with Google"
-                                    onSuccess={handleLoginSuccess}
-                                    onFailure={handleLoginFailure}
-                                    cookiePolicy={'single_host_origin'}
-                                    className="google__btn auth__btn"
-                                />
+                                    <GoogleOAuthProvider clientId="243962731858-rb04b0dbelevp5blhc339io995opuhqu.apps.googleusercontent.com">
+                                    <GoogleLogin
+                                        onSuccess={responseGoogle}
+                                          onError={() => {
+                                            console.log('Login Failed');
+                                          }}/>  
+                                    </GoogleOAuthProvider>
+                                    </Form>
 
                                 <p>Don't have an account? <Link to='/register' >Create Account</Link></p>
                             </div>
