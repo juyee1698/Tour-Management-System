@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080'; 
+const BASE_URL = 'https://vacay-backend-134621f1e5ec.herokuapp.com'; 
 
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
