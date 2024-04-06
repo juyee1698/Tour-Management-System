@@ -23,9 +23,6 @@ const Login = () => {
     };
 
     const toggleModal = () => setModal(!modal);
-    const responseGoogleFailure = (response) => {
-        console.error('Google login failed:', response);
-    }
     const responseGoogle = async (response) => {
         console.log("sUCCESS")
         console.log(response.credential)
@@ -49,6 +46,7 @@ const Login = () => {
                 console.log('Login successful:', data);
                 localStorage.setItem('token',data.token)
                 localStorage.setItem('userId',data.userId)
+                localStorage.setItem('name', data.name)
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000); 
@@ -74,6 +72,7 @@ const Login = () => {
                 console.log('Login successful:', data);
                 localStorage.setItem('token',data.token)
                 localStorage.setItem('userId',data.userId)
+                localStorage.setItem('name', data.name)
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000); 
@@ -88,21 +87,6 @@ const Login = () => {
             toggleModal(); 
         }
     };
-
-    const handleLoginSuccess = (response) => {
-        console.log('Login Success:', response);
-        localStorage.setItem('token',response.token)
-        localStorage.setItem('userId',response.userId)
-        setTimeout(() => {
-            navigate('/home');
-        }, 2000);
-      };
-      
-      const handleLoginFailure = (response) => {
-        console.error('Login Failed:', response);
-        setModalMessage('Google Login failed. Please try again.');
-        toggleModal();
-      };
 
     return (
         <section>
