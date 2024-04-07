@@ -1,6 +1,7 @@
 import React from 'react';
 import {Container, Row, Button} from 'reactstrap';
 import { NavLink, Link, useNavigate} from 'react-router-dom';
+import { logoutUser } from '../../apiService';
 
 import logo from '../../assets/images/logo2.png';
 import './header.css';
@@ -18,14 +19,14 @@ const nav__links = [
 const Header = () => {
 
     const authToken = localStorage.getItem('token');
-    // const userId = localStorage.getItem('userId');
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
-        // localStorage.removeItem('userId');
+
+        logoutUser();
+
         setTimeout(() => {
-            navigate('/');
+            navigate('/login');
         }, 1000);
     };
 

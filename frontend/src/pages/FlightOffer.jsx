@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import {getFlightDetails} from '../apiService';
+import {getFlightDetails, bookFlight, logoutUser} from '../apiService';
+import { useNavigate } from 'react-router-dom';
 
-const FlightOffer = ({ offer }) => {
+
+const FlightOffer = ({ offer, airlines }) => {
+  const navigate = useNavigate();
   const [flightData, setFlightData] = useState(null);
+  const [journeyContinuationId, setJourneyContinuationId] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const formatTime = (dateTime) => new Date(dateTime).toLocaleTimeString([], { timeStyle: 'short', hour12: false });
 
@@ -20,6 +24,7 @@ const FlightOffer = ({ offer }) => {
       const flightDetails = await getFlightDetails( offer.id );
       console.log(flightDetails)
       setFlightData(flightDetails);
+      setJourneyContinuationId(flightDetails.journeyContinuationId);
       setModalVisible(true);
     } catch (error) {
       console.error('Error fetching selected flight details:', error);
@@ -28,6 +33,26 @@ const FlightOffer = ({ offer }) => {
 
   const closeModal = () => {
     setModalVisible(false);
+  };
+
+  const bookingFlow = async () => {
+    try {
+      const bookingResponse = await bookFlight(journeyContinuationId);
+      navigate('/bookingCheckout', { state: { flightDetails: bookingResponse }});
+      console.log('Booking successful:', bookingResponse);
+    }
+    catch (error) {
+      if (error.authError) {
+          logoutUser();
+
+          setTimeout(() => {
+              navigate('/login');
+          }, 1000);
+      }
+      else{
+      console.error('Booking failed:', error);
+      }
+  }
   };
 
   return (
@@ -52,7 +77,7 @@ const FlightOffer = ({ offer }) => {
               <span className="duration">{duration}</span>
             </div>
             <div className="flight-details">
-              <span className="airline">{offer.validatingAirlineCodes[0]} Airlines</span>
+              <span className="airline">Airlines: {airlines.join(', ')}</span>
               <span className="flight-number">Flight {itinerary.segments[0].number}</span>
               <span className="layovers">{layovers > 0 ? `${layovers} layover${layovers > 1 ? 's' : ''}` : 'Non-stop'}</span>
             </div>
@@ -109,7 +134,7 @@ const FlightOffer = ({ offer }) => {
     </ModalBody>
     <ModalFooter>
       <Button color="secondary" onClick={closeModal}>Close</Button>
-      <Button color="primary">Book This Flight</Button>
+      <Button color="primary" onClick={bookingFlow}>Book This Flight</Button>
     </ModalFooter>
   </Modal>
 )}

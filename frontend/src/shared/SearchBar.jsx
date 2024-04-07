@@ -1,10 +1,11 @@
 import React, { useRef } from 'react';
 import './search-bar.css';
 import { Col, Form, FormGroup } from 'reactstrap';
-import { searchFlight } from '../apiService';
+import { searchFlight, logoutUser } from '../apiService';
 import { useNavigate } from 'react-router-dom';
 
 const SearchBar = () => {
+    const authToken = localStorage.getItem('token');
     const navigate = useNavigate();
     const fromLocationRef = useRef('');
     const toLocationRef = useRef('');
@@ -34,7 +35,18 @@ const SearchBar = () => {
             const searchResults = await searchFlight(searchData);
             navigate('/flights', { state: { searchResults: searchResults } });
         } catch (error) {
+            if (error.authError) {
+                if(authToken){
+                logoutUser();
+                }
+
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
+            }
+            else{
             console.error('Search failed:', error);
+            }
         }
 
     }

@@ -6,6 +6,9 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import SearchResultList from '../pages/SearchResultList';
 import Flights from '../pages/Flights';
+import BookingCheckout from '../pages/BookingCheckout';
+import BookingSuccess from '../pages/BookingSuccess';
+import BookingCancel from '../pages/BookingCancel';
 
 const Router = () => {
     return (
@@ -17,6 +20,9 @@ const Router = () => {
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
             <Route path='/flights/search' element={<SearchResultList/>}/>
+            <Route path="/bookingCheckout" element={<BookingCheckout/>} />
+            <Route path="/bookingConfirmation" element={<BookingSuccess/>}/>
+            <Route path="/bookingCancel" element={<BookingCancel/>}/>
         </Routes>
     )
 }

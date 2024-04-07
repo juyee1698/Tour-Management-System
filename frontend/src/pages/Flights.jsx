@@ -19,6 +19,7 @@ const Flights = () => {
     useEffect(() => {
         if (location.state?.searchResults) {
             const newFlightData = location.state.searchResults;
+            console.log("FLIGHT",newFlightData)
             setFlightData(newFlightData);
 
             const airlineSet = new Set();
@@ -36,8 +37,20 @@ const Flights = () => {
     useEffect(() => {
         if (!flightData) return;
 
+        const mapAirlineCodesToNames = (carrierCode) => {
+            return flightData.dictionaries.carriers[carrierCode] || carrierCode;
+        };
+
         const applyFilters = () => {
             let filteredData = flightData.flightsResult;
+
+            filteredData = filteredData.map(offer => {
+                const airlines = offer.itineraries.flatMap(itinerary =>
+                    itinerary.segments.map(segment => mapAirlineCodesToNames(segment.carrierCode))
+                );
+                const uniqueAirlines = Array.from(new Set(airlines)); // Remove duplicates
+                return { ...offer, airlines: uniqueAirlines };
+            });
 
             // Filter by time of day
             if (selectedTimeOfDay !== 'all') {
@@ -81,11 +94,14 @@ const Flights = () => {
                 filteredData = filteredData.filter(offer => {
                     return offer.itineraries.some(itinerary => {
                         return itinerary.segments.some(segment => {
-                            return segment.carrierCode === selectedAirline;
+                            // Map the carrier code to the airline's full name for comparison
+                            const airlineName = flightData.dictionaries.carriers[segment.carrierCode] || segment.carrierCode;
+                            return airlineName === selectedAirline;
                         });
                     });
                 });
             }
+            
 
             setFilteredFlightData(filteredData);
         }
@@ -114,7 +130,7 @@ const Flights = () => {
                 </div>
                 <div className="flight-offers-container">
                     {filteredFlightData.map(offer => (
-                        <FlightOffer key={offer.id} offer={offer} />
+                        <FlightOffer key={offer.id} offer={offer} airlines={offer.airlines} />
                     ))}
                 </div>
             </div>
