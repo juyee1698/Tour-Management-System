@@ -59,7 +59,7 @@ const Header = () => {
                     <div className="nav__right d-flex align-items-center gap-4">
                     {authToken ? (
                                 <div className="user__info d-flex align-items-center gap-2">
-                                    {/* <span>Hi {userId} !!   </span> Display user name */}
+                                    {<span>Hi {localStorage.getItem('name')} !!   </span> }
                                     <Button onClick={handleLogout} className='btn primary__btn'>Logout</Button>
                                 </div>
                             ) : (
