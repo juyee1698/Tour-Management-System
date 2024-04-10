@@ -9,6 +9,7 @@ import Flights from '../pages/Flights';
 import BookingCheckout from '../pages/BookingCheckout';
 import BookingSuccess from '../pages/BookingSuccess';
 import BookingCancel from '../pages/BookingCancel';
+import BookingHistory from '../pages/BookingHistory';
 
 const Router = () => {
     return (
@@ -23,6 +24,7 @@ const Router = () => {
             <Route path="/bookingCheckout" element={<BookingCheckout/>} />
             <Route path="/bookingConfirmation" element={<BookingSuccess/>}/>
             <Route path="/bookingCancel" element={<BookingCancel/>}/>
+            <Route path="/bookingHistory" element={<BookingHistory/>}/>
         </Routes>
     )
 }

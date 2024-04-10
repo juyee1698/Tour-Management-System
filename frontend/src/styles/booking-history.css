@@ -1,0 +1,78 @@
+/* Base styles */
+body {
+    font-family: Arial, sans-serif; /* Specify a preferred font family */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Set a base text color */
+  }
+  
+  .booking-history {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #1779ba; /* Add a primary color accent */
+  }
+  
+  /* Booking card styles */
+  .booking-card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    padding: 15px;
+    transition: all 0.2s ease-in-out; /* Add smooth transitions */
+  }
+  
+  .booking-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Enhance hover effect */
+  }
+  
+  .booking-card h3,
+  .booking-card p {
+    margin: 5px 0;
+  }
+  
+  .booking-card p strong {
+    font-weight: bold;
+  }
+  
+  .travel-segments {
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+  }
+  
+  .travel-segments h4 {
+    margin-bottom: 10px;
+  }
+  
+  /* Status indicator (optional) */
+  .booking-card p.status {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.8em;
+  }
+  
+  .booking-card p.status.completed {
+    background-color: #4caf50; /* Green for completed bookings */
+    color: #fff;
+  }
+  
+  .booking-card p.status.pending {
+    background-color: #ffc107; /* Orange for pending bookings */
+    color: #333;
+  }
+  
+  .booking-card p.status.cancelled {
+    background-color: #f44336; /* Red for cancelled bookings */
+    color: #fff;
+  }
+  

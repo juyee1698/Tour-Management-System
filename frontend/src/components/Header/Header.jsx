@@ -14,6 +14,10 @@ const nav__links = [
         path:'/about',
         display:'About'
     },
+    {
+        path:'/bookingHistory',
+        display:'Booking History'
+    }
 ]
 
 const Header = () => {

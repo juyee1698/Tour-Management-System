@@ -1,4 +1,4 @@
-const BASE_URL = 'https://vacay-backend-134621f1e5ec.herokuapp.com'; 
+const BASE_URL = 'http://localhost:8080'; 
 
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
@@ -194,6 +194,57 @@ async function bookCancel() {
     }
 }
 
+async function fetchAirportMetadata() {
+    try {
+
+        const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                throw { authError: true }
+            }
+
+        const response = await fetch(`${BASE_URL}/cityMetadata`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+        });
+        const data = await response.json();
+
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching airport metadata:', error);
+        throw error;
+    }
+}
+
+async function userBookingHistory() {
+    try {
+
+        const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                throw { authError: true };
+            }
+
+        const response = await fetch(`${BASE_URL}/flightBookingHistory`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+        });
+        const data = await response.json();
+
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching airport metadata:', error);
+        throw error;
+    }
+}
 
 
-export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel};
+
+
+export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel, fetchAirportMetadata, userBookingHistory};
