@@ -11,13 +11,17 @@ const nav__links = [
         display:'Home'
     },
     {
+        path:'/bookingHistory',
+        display:'Booking History'
+    },
+    // {
+    //     path:'itinerary',
+    //     display:'Itinerary'
+    // },
+    {
         path:'/about',
         display:'About'
     },
-    {
-        path:'/bookingHistory',
-        display:'Booking History'
-    }
 ]
 
 const Header = () => {

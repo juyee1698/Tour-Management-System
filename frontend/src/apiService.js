@@ -202,7 +202,7 @@ async function fetchAirportMetadata() {
                 throw { authError: true }
             }
 
-        const response = await fetch(`${BASE_URL}/cityMetadata`, {
+        const response = await fetch(`${BASE_URL}/airportMetadata`, {
             method: 'POST',
             headers: getAuthHeaders(),
         });
@@ -244,7 +244,85 @@ async function userBookingHistory() {
     }
 }
 
+async function fetchCityMetadata() {
+    try {
+
+        const authToken = localStorage.getItem('token');
+            if (!authToken) {
+                throw { authError: true }
+            }
+
+        const response = await fetch(`${BASE_URL}/cityMetadata`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+        });
+        const data = await response.json();
+
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+
+        return data;
+    } catch (error) {
+        console.error('Error fetching city metadata:', error);
+        throw error;
+    }
+}
+
+async function searchSightseeing(searchData) {
+    try {
+        const response = await fetch(`${BASE_URL}/sightSearch`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(searchData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error searching:', error);
+        throw error;
+    }
+}
+
+async function selectSight(searchData) {
+    try {
+        const response = await fetch(`${BASE_URL}/sightSearch/selectSight`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(searchData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error searching:', error);
+        throw error;
+    }
+}
+
+async function addReview(reviewData) {
+    try {
+        const response = await fetch(`${BASE_URL}/sightSearch/selectSight/addReview`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(reviewData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error searching:', error);
+        throw error;
+    }
+}
 
 
 
-export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel, fetchAirportMetadata, userBookingHistory};
+export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel, fetchAirportMetadata, fetchCityMetadata, userBookingHistory, searchSightseeing, selectSight, addReview};

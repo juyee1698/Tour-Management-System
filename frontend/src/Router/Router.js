@@ -25,6 +25,7 @@ const Router = () => {
             <Route path="/bookingConfirmation" element={<BookingSuccess/>}/>
             <Route path="/bookingCancel" element={<BookingCancel/>}/>
             <Route path="/bookingHistory" element={<BookingHistory/>}/>
+            {/* <Route path="/itinerary" element={<Itinerary/>}/> */}
         </Routes>
     )
 }

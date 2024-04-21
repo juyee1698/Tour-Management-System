@@ -19,8 +19,8 @@ const SearchBar = () => {
         (async () => {
             try {
                 const data = await fetchAirportMetadata();
-                if (data && data.cityMetadata) {
-                    setAirportData(data.cityMetadata);
+                if (data && data.airportMetadata) {
+                    setAirportData(data.airportMetadata);
                 }
             } catch (error) {
                 if (error.authError) {
@@ -42,10 +42,11 @@ const SearchBar = () => {
     const filterSuggestions = (inputValue, locationType) => {
         if (inputValue.length > 0) {
             const filteredData = airportData.filter(airport =>
-                airport.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-                airport.country.toLowerCase().includes(inputValue.toLowerCase()) ||
+                airport.airportName.toLowerCase().includes(inputValue.toLowerCase()) ||
+                airport.cityName.toLowerCase().includes(inputValue.toLowerCase()) ||
                 airport.iataCode.toLowerCase().includes(inputValue.toLowerCase())
             );
+            
             locationType === 'from' ? setFromSuggestions(filteredData) : setToSuggestions(filteredData);
         } else {
             locationType === 'from' ? setFromSuggestions([]) : setToSuggestions([]);
@@ -53,7 +54,7 @@ const SearchBar = () => {
     };
 
     const handleSuggestionClick = (suggestion, locationType) => {
-        const inputValue = `${suggestion.name}, ${suggestion.country}`;
+        const inputValue = `${suggestion.airportName} (${suggestion.iataCode}), ${suggestion.cityName}`;
         if (locationType === 'from') {
             setFromIataCode(suggestion.iataCode);
             document.getElementById('from-input').value = inputValue;
@@ -121,7 +122,7 @@ const SearchBar = () => {
                                 <ul className="autocomplete-suggestions">
                                     {fromSuggestions.map((suggestion, index) => (
                                         <li key={index} onClick={() => handleSuggestionClick(suggestion, 'from')}>
-                                            {`${suggestion.name}, ${suggestion.country} (${suggestion.iataCode})`}
+                                            {`${suggestion.airportName}, ${suggestion.cityName} (${suggestion.iataCode})`}
                                         </li>
                                     ))}
                                 </ul>
@@ -142,7 +143,7 @@ const SearchBar = () => {
                                 <ul className="autocomplete-suggestions">
                                     {toSuggestions.map((suggestion, index) => (
                                         <li key={index} onClick={() => handleSuggestionClick(suggestion, 'to')}>
-                                            {`${suggestion.name}, ${suggestion.country} (${suggestion.iataCode})`}
+                                            {`${suggestion.airportName}, ${suggestion.cityName} (${suggestion.iataCode})`}
                                         </li>
                                     ))}
                                 </ul>
