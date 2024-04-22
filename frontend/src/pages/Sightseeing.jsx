@@ -149,7 +149,25 @@ const Sightseeing = () => {
     const handleTypeChange = event => {
         setType(event.target.value);
     };
-
+    const handleOpenRecommendationClick = async (placeId) =>{
+        const params = {
+            placeId: placeId
+        };
+        try {
+            const sightData = await selectSight(params);
+            console.log('Response from selectSight:', sightData);
+            handleDetailedInfo(sightData)
+            checkUserReview(sightData);
+        } catch (error) {
+            if (error.authError) {
+                setTimeout(() => {
+                    navigate('/login');
+                }, 1000);
+            } else {
+                console.error('Error sending data to selectSight:', error);
+            }
+        }        
+    }
     const handleOpenClick = async (placeId) => {
         const params = {
             searchContinuationId: searchContinuationId, 
@@ -330,7 +348,7 @@ const Sightseeing = () => {
                             <CardTitle tag="h5" className="tour__title">{place.name}</CardTitle>
                                 <CardText className="tour__location">{place.vicinity}</CardText>
                                 <CardText className="tour__rating">Rating: {place.rating} ({place.user_ratings_total} reviews)</CardText>
-                                <Button className="booking__btn" color="secondary" onClick={() => handleOpenClick(place.place_id)}>Open</Button>
+                                <Button className="booking__btn" color="secondary" onClick={() => handleOpenRecommendationClick(place.place_id)}>Open</Button>
                             </CardBody>
                         </Card>
                     </Col>
@@ -346,6 +364,7 @@ const Sightseeing = () => {
                     <Button color="primary" onClick={toggle}>Close</Button>
                 </ModalFooter>
             </Modal></>
+            
     
     );
 };
