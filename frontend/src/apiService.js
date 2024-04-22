@@ -302,7 +302,7 @@ async function selectSight(searchData) {
         }
         return data;
     } catch (error) {
-        console.error('Error searching:', error);
+        console.error('Error selecting sight:', error);
         throw error;
     }
 }
@@ -320,11 +320,99 @@ async function addReview(reviewData) {
         }
         return data;
     } catch (error) {
-        console.error('Error searching:', error);
+        console.error('Error adding review:', error);
+        throw error;
+    }
+}
+
+async function createItinerary(itData) {
+    try {
+        const response = await fetch(`${BASE_URL}/user/createItinerary`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(itData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error creating:', error);
+        throw error;
+    }
+}
+
+async function getItineraries() {
+    try {
+        const response = await fetch(`${BASE_URL}/user/getItineraries`, {
+            method: 'GET',
+            headers: getAuthHeaders(),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error getting:', error);
+        throw error;
+    }
+}
+
+async function deleteItinerary(id) {
+    try {
+        const response = await fetch(`${BASE_URL}/user/deleteItinerary`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(id),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error deleting:', error);
+        throw error;
+    }
+}
+
+async function deleteItinerarySegment(deleteData) {
+    try {
+        const response = await fetch(`${BASE_URL}/user/deleteItinerarySegment`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(deleteData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error deleting:', error);
+        throw error;
+    }
+}
+
+async function editItinerary(addData) {
+    try {
+        const response = await fetch(`${BASE_URL}/user/editItinerary`, {
+            method: 'POST',
+            headers: getAuthHeaders(),
+            body: JSON.stringify(addData),
+        });
+        const data = await response.json();
+        if (data.errorCode === "auth_err" || data.message === "Not authenticated.") {
+            throw { authError: true, message: data.message };
+        }
+        return data;
+    } catch (error) {
+        console.error('Error adding or editing:', error);
         throw error;
     }
 }
 
 
-
-export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel, fetchAirportMetadata, fetchCityMetadata, userBookingHistory, searchSightseeing, selectSight, addReview};
+export { loginUser, registerUser, searchFlight, getFlightDetails, logoutUser, bookFlight, bookCheckout, bookSuccess, bookCancel, fetchAirportMetadata, fetchCityMetadata, userBookingHistory, searchSightseeing, selectSight, addReview, createItinerary, getItineraries, deleteItinerary, deleteItinerarySegment, editItinerary};

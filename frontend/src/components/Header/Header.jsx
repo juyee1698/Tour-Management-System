@@ -5,29 +5,30 @@ import { logoutUser } from '../../apiService';
 
 import logo from '../../assets/images/logo2.png';
 import './header.css';
-const nav__links = [
-    {
-        path:'/home',
-        display:'Home'
-    },
-    {
-        path:'/bookingHistory',
-        display:'Booking History'
-    },
-    // {
-    //     path:'itinerary',
-    //     display:'Itinerary'
-    // },
-    {
-        path:'/about',
-        display:'About'
-    },
-]
 
 const Header = () => {
 
     const authToken = localStorage.getItem('token');
     const navigate = useNavigate();
+
+    const nav__links = [
+        {
+            path:'/home',
+            display:'Home'
+        },
+        ...(authToken ? [{
+            path: '/bookingHistory',
+            display: 'Booking History'
+        },
+        {
+            path:'/itinerary',
+            display:'Itinerary'
+        },] : []),
+        {
+            path:'/about',
+            display:'About'
+        },
+    ]
 
     const handleLogout = () => {
 
