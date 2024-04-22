@@ -238,7 +238,7 @@ const Sightseeing = () => {
                 </FormGroup>
                 <Button color="primary" type="submit">Search</Button>
             </Form>
-            <Row>
+            <Row> 
                 {results.map(sight => (
                     <Col sm="6" md="4" lg="3" key={sight.place_id} className="mb-4">
                         <Card className="h-100">
@@ -314,9 +314,29 @@ const Sightseeing = () => {
     )}
 </div>
                 <p><strong>More Info:</strong> <a href={detailedInfo.placeFullDetails.url} target="_blank" rel="noopener noreferrer">View on Google Maps</a></p>
+                
+                <Container>
+            <h2>You might also like</h2>
+            <Row>
+                {detailedInfo.recommendation.map(place => (
+                    <Col sm="6" md="4" lg="3" key={place.place_id} className="mb-4">
+                        <Card>
+                            <CardBody>
+                            <CardImg top src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${place.photos[0].photo_reference}&key=${process.env.REACT_APP_PLACES_NEARBY}`} alt={place.name} className="tour__img" />   
+                            <CardTitle tag="h5" className="tour__title">{place.name}</CardTitle>
+                                <CardText className="tour__location">{place.vicinity}</CardText>
+                                <CardText className="tour__rating">Rating: {place.rating} ({place.user_ratings_total} reviews)</CardText>
+                                <Button className="booking__btn" color="secondary" onClick={() => handleOpenClick(place.place_id)}>Open</Button>
+                            </CardBody>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+        </Container>
             </div>
+            
         )}
-    </ModalBody>
+    </ModalBody>    
                 <ModalFooter>
                     <Button color="primary" onClick={handleAddToItinerary}>Add to Itinerary</Button>
                     <Button color="primary" onClick={toggle}>Close</Button>

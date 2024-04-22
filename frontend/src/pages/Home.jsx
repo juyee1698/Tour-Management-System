@@ -11,6 +11,7 @@ import SearchBar from '../shared/SearchBar.jsx';
 import ServiceList from '../services/ServiceList.jsx';
 import FeaturedTourList from '../components/Featured-tours/FeaturedTourList.jsx';
 import Sightseeing from './Sightseeing.jsx';
+import SightSeeingRecommendation from './SightseeingRecommendation.jsx'
 
 const Home = () => {
 
@@ -74,6 +75,7 @@ const Home = () => {
                         {activeTab === 'sightseeing' && (
                             <Col lg="12">
                                 <Sightseeing/>
+                                <SightSeeingRecommendation/>
                             </Col>
                         )}
                 </Row>
