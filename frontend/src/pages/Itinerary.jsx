@@ -86,17 +86,20 @@ function Itinerary() {
                 </tr>
               </thead>
               <tbody>
-                {itinerary.itinerarySegments.map((segment, index) => (
-                  <tr key={segment._id}>
-                    <td>
-                      {segment.placeName} at {segment.placeAddress} on {new Date(segment.date).toLocaleDateString()}
-                      <Button color="danger" size="sm" className="float-right" onClick={() => handleDeleteSegment(itinerary._id, segment.placeId, segment.date)}>
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
+  {itinerary.itinerarySegments.map((segment, index) => (
+    <tr key={segment._id}>
+      <td style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span>
+          {segment.placeName} at {segment.placeAddress} on {new Date(segment.date).toLocaleDateString()}
+        </span>
+        <Button color="danger" size="sm" onClick={() => handleDeleteSegment(itinerary._id, segment.placeId, segment.date)}>
+          <i className="ri-delete-bin-6-line"></i>
+        </Button>
+      </td>
+    </tr>
+  ))}
+</tbody>
+
             </Table>
             <Button color="danger" onClick={() => handleDeleteItinerary(itinerary._id)}>Delete Itinerary</Button>
           </CardBody>

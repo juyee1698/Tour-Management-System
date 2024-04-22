@@ -130,7 +130,11 @@ const Sightseeing = () => {
     
 
     const handleAddToItinerary = () => {
-        setIsAddToItineraryModalOpen(!isAddToItineraryModalOpen);
+        if(!(itineraries.length>0)){
+            alert("Please Create an Itinerary first")
+        }else{
+            setIsAddToItineraryModalOpen(!isAddToItineraryModalOpen);
+        }
     };
     
 
@@ -341,8 +345,11 @@ const handleOpenRecommendationClick = async (placeId) =>{
                     <button onClick={submitReview} className="btn btn-primary mt-2 booking__btn">Submit Rating and Review</button>
                 </div>
             )}
-    <p><strong>More Info:</strong> <a href={detailedInfo.placeFullDetails.url} target="_blank" rel="noopener noreferrer">View on Google Maps</a></p>
-
+                <p><strong>More Info:</strong> <a href={detailedInfo.placeFullDetails.url} target="_blank" rel="noopener noreferrer">View on Google Maps</a></p>
+                <ModalFooter>
+                    <Button color="primary" class="booking__btn" onClick={handleAddToItinerary}>Add to Itinerary</Button>
+                    <Button color="primary" class="booking__btn" onClick={toggle}>Close</Button>
+                </ModalFooter>
                 <Container>
             <h2>You might also like</h2>
             <Row>
@@ -364,10 +371,6 @@ const handleOpenRecommendationClick = async (placeId) =>{
         </div>
     )}
 </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={handleAddToItinerary}>Add to Itinerary</Button>
-                    <Button color="primary" onClick={toggle}>Close</Button>
-                </ModalFooter>
             </Modal>
             {detailedInfo && itineraries.length > 0 && (
             <AddToItineraryModal
