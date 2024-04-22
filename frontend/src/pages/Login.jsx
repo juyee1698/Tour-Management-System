@@ -28,7 +28,10 @@ const Login = () => {
         console.log(response.credential)
         // console.log(response.tokenId)
         try {
-            const res = await fetch('https://vacay-backend-134621f1e5ec.herokuapp.com/o2auth/google', {
+            var oauth_url = process.env.REACT_APP_BACKEND_URL + '/o2auth/google'
+            console.log(process.env.REACT_APP_BACKEND_URL )
+            console.log(oauth_url)
+            const res = await fetch(oauth_url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

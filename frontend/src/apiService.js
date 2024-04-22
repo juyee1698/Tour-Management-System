@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080'; 
+const BASE_URL = process.env.REACT_APP_BACKEND_URL ; 
 
 function getAuthHeaders() {
     const token = localStorage.getItem('token');
@@ -59,6 +59,8 @@ async function logoutUser() {
         const data = await response.json();
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
+        localStorage.removeItem('activity')
+        localStorage.removeItem('name')
         return data;
     } catch (error) {
         console.error('Error Logout:', error);
