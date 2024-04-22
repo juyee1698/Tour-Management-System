@@ -337,7 +337,7 @@ const Sightseeing = () => {
             <h2>You might also like</h2>
             <Row>
                 {detailedInfo.recommendation.map(place => (
-                    <Col sm="6" md="4" lg="3" key={place.place_id} className="mb-4">
+                    <Col sm="6" md="6" lg="4" key={place.place_id} className="mb-4">
                         <Card>
                             <CardBody>
                             <CardImg top src={`https://maps.googleapis.com/maps/api/place/photo?maxheight=200&photoreference=${place.photos[0].photo_reference}&key=${process.env.REACT_APP_PLACES_NEARBY}`} alt={place.name} className="tour__img" />   
