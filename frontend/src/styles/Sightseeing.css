@@ -174,3 +174,20 @@
     margin-top: 10px;
     margin-bottom: 20px; 
 }
+
+.review-card {
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Light grey border */
+    padding: 15px;
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow */
+    border-radius: 8px; /* Rounded corners */
+}
+
+.review-card p {
+    margin: 10px 0; /* Margin for paragraph spacing */
+}
+
+.review-card strong {
+    color: #333; /* Darker text for labels */
+}
