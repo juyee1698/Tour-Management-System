@@ -1,0 +1,25 @@
+.itinerary-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .button-container {
+    margin-bottom: 20px; /* Spacing between button and cards */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .itinerary-card {
+    width: 80%; /* Makes each card full width */
+    margin-bottom: 20px; /* Space between cards */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .itinerary-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  }
+  

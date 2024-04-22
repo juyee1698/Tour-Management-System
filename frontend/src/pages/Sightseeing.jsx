@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCityMetadata, searchSightseeing, selectSight, addReview } from '../apiService.js';
+import { fetchCityMetadata, searchSightseeing, selectSight, addReview, getItineraries } from '../apiService.js';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Sightseeing.css';
 import Slider from "react-slick";
@@ -8,6 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { Container, Row, Col, Form, FormGroup, Input, Button, Card, CardImg, CardBody, CardTitle, CardText } from 'reactstrap';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import StarRating from './StarRating.jsx';
+import AddToItineraryModal from './AddToItineraryModal.jsx';
 
 const Sightseeing = () => {
     const [cities, setCities] = useState([]);
@@ -23,6 +24,9 @@ const Sightseeing = () => {
     const [userReview, setUserReview] = useState('');
     const [userReviewSummary,setUserReviewSummary] = useState('');
     const [hasReviewed, setHasReviewed] = useState(false);
+    const [itineraries, setItineraries] = useState([]);
+    const [isAddToItineraryModalOpen, setIsAddToItineraryModalOpen] = useState(false);
+
     
     
     const submitReview = async () => {
@@ -41,41 +45,12 @@ const Sightseeing = () => {
         try {
             const revData = await addReview(reviewData);
             console.log(revData)
-
-            const submitReview = async () => {
-                if (!detailedInfo.placeFullDetails.place_id || userReview.length < 5 || userReviewSummary.length < 5 || userRating === 0) {
-                    alert('Please make sure all fields are correctly filled out.');
-                    return;
-                }
-            
-                const reviewData = {
-                    placeId: detailedInfo.placeFullDetails.place_id,
-                    review: userReview,
-                    rating: userRating,
-                    summary: userReviewSummary,
-                };
-            
-                try {
-                    const revData = await addReview(reviewData);
-                    console.log(revData);
-                    // Assuming the server responds with the review data added, update state
-                    if (revData) {
-                        setUserRating(revData.rating); // Update state with the new rating
-                        setUserReview(revData.review); // Update state with the new review
-                        setUserReviewSummary(revData.summary); // Update state with the new summary
-                        setHasReviewed(true); // Set hasReviewed to true since the user now has a review
-                    }
-                } catch (error) {
-                    if (error.authError) {
-                        setTimeout(() => {
-                            navigate('/login');
-                        }, 1000);
-                    } else {
-                        console.error('Search failed:', error);
-                    }
-                }
-            };
-            
+            if (revData) {
+                setUserRating(revData.rating); // Update state with the new rating
+                setUserReview(revData.review); // Update state with the new review
+                setUserReviewSummary(revData.summary); // Update state with the new summary
+                setHasReviewed(true); // Set hasReviewed to true since the user now has a review
+            }
         } catch (error) {
             if (error.authError) {
                 setTimeout(() => {
@@ -134,6 +109,27 @@ const Sightseeing = () => {
             setFilteredCities([]);
         }
     }, [searchTerm, cities]);
+
+    useEffect(() => {
+        const fetchItineraries = async () => {
+            try {
+                const fetchedItineraries = await getItineraries(); // Ensure this function exists and works
+                setItineraries(fetchedItineraries.itineraries);
+            } catch (error) {
+                console.error('Error fetching itineraries:', error);
+            }
+        };
+    
+        fetchItineraries();
+    }, []);
+    
+
+    const handleAddToItinerary = () => {
+        console.log("IT",itineraries)
+        console.log("DI",detailedInfo)
+        setIsAddToItineraryModalOpen(!isAddToItineraryModalOpen);
+    };
+    
 
     const handleSearchChange = event => {
         setSearchTerm(event.target.value);
@@ -322,10 +318,18 @@ const Sightseeing = () => {
         )}
     </ModalBody>
                 <ModalFooter>
-                    <Button color="primary">Add to Itinerary</Button>
+                    <Button color="primary" onClick={handleAddToItinerary}>Add to Itinerary</Button>
                     <Button color="primary" onClick={toggle}>Close</Button>
                 </ModalFooter>
-            </Modal></>
+            </Modal>
+            {detailedInfo && itineraries.length > 0 && (
+            <AddToItineraryModal
+                isOpen={isAddToItineraryModalOpen}
+                toggle={handleAddToItinerary}
+                detailedInfo={detailedInfo}
+                itineraries={itineraries}
+            />
+        )}</>
     
     );
 };
