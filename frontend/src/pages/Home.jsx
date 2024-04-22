@@ -29,10 +29,7 @@ const Home = () => {
                         </div>
                         <h1>Why wait for a yayyyy, when you can <span className='highlight'>
                             Vacayy</span></h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                             Quod accusantium rerum aliquam nesciunt accusamus quos, praesentium error,
-                              odio eaque possimus, id nulla fuga deleniti illum voluptatem. 
-                              Laudantium dolor iste est.</p>
+                        <p>From flights to itineraries, we're dedicated to crafting your perfect adventure. Choose us for a journey that turns your dreams into unforgettable memories!</p>
                     </div>
                     </Col>
                     <Col lg='2'>
@@ -89,17 +86,6 @@ const Home = () => {
                         <h2 className="services__title">We are the best in our world</h2>
                     </Col>
                     <ServiceList/>
-                </Row>
-            </Container>
-        </section>
-        <section>
-            <Container>
-                <Row>
-                    <Col lg='12' className='mb-5'>
-                        <Subtitle subtitle={"Explore"} />
-                        <h2 className="featured__tour-title">Where my other buddies at?</h2>
-                    </Col>
-                    <FeaturedTourList/>
                 </Row>
             </Container>
         </section>

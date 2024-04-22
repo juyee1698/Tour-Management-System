@@ -23,6 +23,7 @@ const Sightseeing = () => {
     const [userRating, setUserRating] = useState(0);
     const [userReview, setUserReview] = useState('');
     const [userReviewSummary,setUserReviewSummary] = useState('');
+    const [allReviews, setAllReviews] = useState([]);
     const [hasReviewed, setHasReviewed] = useState(false);
     const [itineraries, setItineraries] = useState([]);
     const [isAddToItineraryModalOpen, setIsAddToItineraryModalOpen] = useState(false);
@@ -30,7 +31,7 @@ const Sightseeing = () => {
     
     
     const submitReview = async () => {
-        if (!detailedInfo.placeFullDetails.place_id || userReview.length < 5 || userReviewSummary.length < 5 || userRating === 0) {
+        if (!detailedInfo.placeFullDetails.place_id || userReview.length < 5 || userReviewSummary.length < 5 || userReviewSummary.length > 20   || userRating === 0) {
             alert('Please make sure all fields are correctly filled out.');
             return;
         }
@@ -44,12 +45,14 @@ const Sightseeing = () => {
 
         try {
             const revData = await addReview(reviewData);
+            alert("Rating Successfully Added")
             console.log(revData)
             if (revData) {
-                setUserRating(revData.rating); // Update state with the new rating
-                setUserReview(revData.review); // Update state with the new review
-                setUserReviewSummary(revData.summary); // Update state with the new summary
-                setHasReviewed(true); // Set hasReviewed to true since the user now has a review
+                setUserRating(revData.rating); 
+                setUserReview(revData.review); 
+                setUserReviewSummary(revData.summary);
+                setHasReviewed(true); 
+                toggle();
             }
         } catch (error) {
             if (error.authError) {
@@ -80,6 +83,8 @@ const Sightseeing = () => {
     const handleDetailedInfo = (data) => {
         setDetailedInfo(data);
         toggle();
+
+        setAllReviews(data.placeReviews);
     };
     
 
@@ -125,8 +130,6 @@ const Sightseeing = () => {
     
 
     const handleAddToItinerary = () => {
-        console.log("IT",itineraries)
-        console.log("DI",detailedInfo)
         setIsAddToItineraryModalOpen(!isAddToItineraryModalOpen);
     };
     
@@ -145,7 +148,7 @@ const Sightseeing = () => {
     const handleTypeChange = event => {
         setType(event.target.value);
     };
-    const handleOpenRecommendationClick = async (placeId) =>{
+const handleOpenRecommendationClick = async (placeId) =>{
         const params = {
             placeId: placeId
         };
@@ -256,7 +259,7 @@ const Sightseeing = () => {
                 </FormGroup>
                 <Button color="primary" type="submit">Search</Button>
             </Form>
-            <Row> 
+            <Row>
                 {results.map(sight => (
                     <Col sm="6" md="4" lg="3" key={sight.place_id} className="mb-4">
                         <Card className="h-100">
@@ -303,36 +306,43 @@ const Sightseeing = () => {
                         ))}
                     </Slider>
                 </div>
-    <div>
-    <h5>Rate this place:</h5>
-    <StarRating count={5} rating={userRating} onRating={value => setUserRating(value)} />
-    {hasReviewed ? (
-        <>
-            <p><strong>Summary of Your Review:</strong> {userReviewSummary}</p>
-            <p><strong>Your Review:</strong> {userReview}</p>
-        </>
-    ) : (
-        <>
-            <input
-                type="text"
-                className="form-control mt-2"
-                placeholder="Summary of the review..."
-                value={userReviewSummary}
-                onChange={e => setUserReviewSummary(e.target.value)}
-            />
-            <textarea
-                className="form-control mt-2"
-                rows="3"
-                placeholder="Write your review..."
-                value={userReview}
-                onChange={e => setUserReview(e.target.value)}
-            />
-            <button onClick={submitReview} className="btn btn-primary mt-2 booking__btn">Submit Rating and Review</button>
-        </>
-    )}
-</div>
-                <p><strong>More Info:</strong> <a href={detailedInfo.placeFullDetails.url} target="_blank" rel="noopener noreferrer">View on Google Maps</a></p>
-                
+                <div>
+                <h5>Reviews:</h5>
+                {allReviews.length > 0 ? (
+                    allReviews.map((allReviews) => (
+                        <div key={allReviews.id} className="review-card">
+                            <p><strong>Anonymous:</strong> <StarRating count={5} rating={allReviews.rating}/></p>
+                            <p><strong>Summary:</strong> {allReviews.summary}</p>
+                            <p>{allReviews.review}</p>
+                        </div>
+                    ))
+                ) : (
+                    <p>No reviews yet.</p>
+                )}
+            </div>
+            {!hasReviewed && (
+                <div>
+                    <h5>Rate this place:</h5>
+                    <StarRating count={5} rating={userRating} onRating={value => setUserRating(value)} />
+                    <input
+                        type="text"
+                        className="form-control mt-2"
+                        placeholder="Summary of the review..."
+                        value={userReviewSummary}
+                        onChange={e => setUserReviewSummary(e.target.value)}
+                    />
+                    <textarea
+                        className="form-control mt-2"
+                        rows="3"
+                        placeholder="Write your review..."
+                        value={userReview}
+                        onChange={e => setUserReview(e.target.value)}
+                    />
+                    <button onClick={submitReview} className="btn btn-primary mt-2 booking__btn">Submit Rating and Review</button>
+                </div>
+            )}
+    <p><strong>More Info:</strong> <a href={detailedInfo.placeFullDetails.url} target="_blank" rel="noopener noreferrer">View on Google Maps</a></p>
+
                 <Container>
             <h2>You might also like</h2>
             <Row>
@@ -351,10 +361,9 @@ const Sightseeing = () => {
                 ))}
             </Row>
         </Container>
-            </div>
-            
-        )}
-    </ModalBody>    
+        </div>
+    )}
+</ModalBody>
                 <ModalFooter>
                     <Button color="primary" onClick={handleAddToItinerary}>Add to Itinerary</Button>
                     <Button color="primary" onClick={toggle}>Close</Button>

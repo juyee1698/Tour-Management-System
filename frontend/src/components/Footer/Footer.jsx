@@ -38,7 +38,7 @@ const Footer = () => {
                 <Col lg='3'>
                     <div className="logo">
                         <img src={logo} alt="" />
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Praesentium architecto tenetur modi tempora </p>
+                        <p>Welcome to Vacay Buddy, your trusted companion in curating unforgettable travel experiences. </p>
 
                         <div className="social__links d-flex align-items-center gap-4">
                             <span>
