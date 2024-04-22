@@ -73,6 +73,7 @@ const Login = () => {
                 localStorage.setItem('token',data.token)
                 localStorage.setItem('userId',data.userId)
                 localStorage.setItem('name', data.name)
+                localStorage.setItem('activity', JSON.stringify(data.placeDetailedSearchLogs));
                 setTimeout(() => {
                     navigate('/home');
                 }, 2000); 

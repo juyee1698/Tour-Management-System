@@ -242,7 +242,7 @@ const Sightseeing = () => {
                 </FormGroup>
                 <Button color="primary" type="submit">Search</Button>
             </Form>
-            <Row>
+            <Row> 
                 {results.map(sight => (
                     <Col sm="6" md="4" lg="3" key={sight.place_id} className="mb-4">
                         <Card className="h-100">
