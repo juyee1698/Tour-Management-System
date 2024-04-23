@@ -1,25 +1,45 @@
 import React from 'react';
 import {Container, Row, Button} from 'reactstrap';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useNavigate} from 'react-router-dom';
+import { logoutUser } from '../../apiService';
 
 import logo from '../../assets/images/logo2.png';
 import './header.css';
-const nav__links = [
-    {
-        path:'/home',
-        display:'Home'
-    },
-    {
-        path:'/about',
-        display:'About'
-    },
-    {
-        path:'/tours',
-        display:'Tours'
-    },
-]
 
 const Header = () => {
+
+    const authToken = localStorage.getItem('token');
+    const navigate = useNavigate();
+
+    const nav__links = [
+        {
+            path:'/home',
+            display:'Home'
+        },
+        ...(authToken ? [{
+            path: '/bookingHistory',
+            display: 'Booking History'
+        },
+        {
+            path:'/itinerary',
+            display:'Itinerary'
+        },] : []),
+        {
+            path:'/about',
+            display:'About'
+        },
+    ]
+
+    const handleLogout = () => {
+
+        logoutUser();
+
+        setTimeout(() => {
+            navigate('/login');
+        }, 1000);
+    };
+
+
     return (<header className="header">
         <Container>
             <Row>
@@ -44,15 +64,23 @@ const Header = () => {
                         </ul>
                     </div>
                     {/* ============= menu end ============= */}
+
                     <div className="nav__right d-flex align-items-center gap-4">
-                      <div className="nav__buttons d-flex align-items-center gap-4">
-                        <Button className='btn secondary__btn'>
-                            <Link to='/login'>Login</Link>
-                        </Button>
-                        <Button className='btn primary__btn'>
-                            <Link to='/register'>Register</Link>
-                        </Button>
-                        </div> 
+                    {authToken ? (
+                                <div className="user__info d-flex align-items-center gap-2">
+                                    {<span>Hi {localStorage.getItem('name')} !!   </span> }
+                                    <Button onClick={handleLogout} className='btn primary__btn'>Logout</Button>
+                                </div>
+                            ) : (
+                                <div className="nav__buttons d-flex align-items-center gap-4">
+                                    <Button className='btn secondary__btn'>
+                                        <Link to='/login'>Login</Link>
+                                    </Button>
+                                    <Button className='btn primary__btn'>
+                                        <Link to='/register'>Register</Link>
+                                    </Button>
+                                </div>
+                            )} 
 
                         <span className="mobile__menu">
                             <i class="ri-menu-line"></i>

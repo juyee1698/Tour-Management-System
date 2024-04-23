@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import '../styles/home.css';
 
 import { Container, Row, Col} from 'reactstrap';
@@ -10,8 +10,13 @@ import Subtitle from '../shared/Subtitle.jsx';
 import SearchBar from '../shared/SearchBar.jsx';
 import ServiceList from '../services/ServiceList.jsx';
 import FeaturedTourList from '../components/Featured-tours/FeaturedTourList.jsx';
+import Sightseeing from './Sightseeing.jsx';
+import SightSeeingRecommendation from './SightseeingRecommendation.jsx'
 
 const Home = () => {
+
+    const [activeTab, setActiveTab] = useState('flights');
+
     return <>
         <section>
             <Container>
@@ -24,10 +29,7 @@ const Home = () => {
                         </div>
                         <h1>Why wait for a yayyyy, when you can <span className='highlight'>
                             Vacayy</span></h1>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                             Quod accusantium rerum aliquam nesciunt accusamus quos, praesentium error,
-                              odio eaque possimus, id nulla fuga deleniti illum voluptatem. 
-                              Laudantium dolor iste est.</p>
+                        <p>From flights to itineraries, we're dedicated to crafting your perfect adventure. Choose us for a journey that turns your dreams into unforgettable memories!</p>
                     </div>
                     </Col>
                     <Col lg='2'>
@@ -45,8 +47,34 @@ const Home = () => {
                             <img src={heroImg02} alt=""/>
                         </div>
                     </Col>
+                </Row>
+            </Container>
+        </section>
 
-                    <SearchBar/>
+        <section>
+            <Container>
+                <Row>
+                    
+                        {/* Sub-navigation */}
+                        <Col lg="12" className="mb-3">
+                            <div className="sub-navigation">
+                                <button onClick={() => setActiveTab('flights')} className={`btn ${activeTab === 'flights' ? 'btn-primary' : 'btn-outline-primary'}`}>Flights</button>
+                                <button onClick={() => setActiveTab('sightseeing')} className={`btn ml-2 ${activeTab === 'sightseeing' ? 'btn-primary' : 'btn-outline-primary'}`}>Sightseeing</button>
+                            </div>
+                        </Col>
+
+                        {activeTab === 'flights' && (
+                            <Col lg="12">
+                                <SearchBar/>
+                            </Col>
+                        )}
+
+                        {activeTab === 'sightseeing' && (
+                            <Col lg="12">
+                                <Sightseeing/>
+                                <SightSeeingRecommendation/>
+                            </Col>
+                        )}
                 </Row>
             </Container>
         </section>
@@ -58,17 +86,6 @@ const Home = () => {
                         <h2 className="services__title">We are the best in our world</h2>
                     </Col>
                     <ServiceList/>
-                </Row>
-            </Container>
-        </section>
-        <section>
-            <Container>
-                <Row>
-                    <Col lg='12' className='mb-5'>
-                        <Subtitle subtitle={"Explore"} />
-                        <h2 className="featured__tour-title">Where my other buddies at?</h2>
-                    </Col>
-                    <FeaturedTourList/>
                 </Row>
             </Container>
         </section>
